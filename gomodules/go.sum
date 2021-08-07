@@ -2,3 +2,7 @@ github.com/afaf-tech/go-say-hello v1.0.0 h1:atSPNJhf8q0T48MFBGCman+KYOoFYIXplOqI
 github.com/afaf-tech/go-say-hello v1.0.0/go.mod h1:bBT1pgIydATk49+co++tHMM/Ezr0K5OlmlHVuOx50Xw=
 github.com/afaf-tech/go-say-hello v1.5.0 h1:u0zdGBz5mN6el3yzhV25LLfFDAVDjALINMw6QLhFErM=
 github.com/afaf-tech/go-say-hello v1.5.0/go.mod h1:bBT1pgIydATk49+co++tHMM/Ezr0K5OlmlHVuOx50Xw=
+github.com/afaf-tech/go-say-hello/v2 v2.0.0 h1:Vil+vMfjnZ6EHCx68LaVre0BJcjaJZOVBSo1Sbx6qKU=
+github.com/afaf-tech/go-say-hello/v2 v2.0.0/go.mod h1:b6QUkBq1O4b+mBYspLUjZSa4YcsP4tRyz0ahR9ykGQQ=
+github.com/afaf-tech/go-say-hello/v2 v2.0.1 h1:Bdx4TzkxhMO+r82os61XW7pEOn96jSN6thpEYws89Tc=
+github.com/afaf-tech/go-say-hello/v2 v2.0.1/go.mod h1:b6QUkBq1O4b+mBYspLUjZSa4YcsP4tRyz0ahR9ykGQQ=
