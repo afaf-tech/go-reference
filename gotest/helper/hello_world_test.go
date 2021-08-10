@@ -9,6 +9,11 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func BenchmarkHelloWorld(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Akmal")
+	}
+}
 func TestTableHelloWorld(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -40,7 +45,7 @@ func TestSubTest(t *testing.T) {
 		require.Equal(t, "Hello Fikri", result, "Result must be 'Hello Fikri'")
 	})
 	t.Run("Akmal", func(t *testing.T) {
-		result := HelloWorld("Akmalf")
+		result := HelloWorld("Akmal")
 		require.Equal(t, "Hello Akmal", result, "Result must be 'Hello Akmal'")
 	})
 }
@@ -66,7 +71,7 @@ func TestSkipping(t *testing.T) {
 
 func TestHelloWorldRequire(t *testing.T) {
 	result := HelloWorld("Fani")
-	require.Equal(t, "Hello Fanif", result, "Result must be 'Hello Fani'")
+	require.Equal(t, "Hello Fani", result, "Result must be 'Hello Fani'")
 	fmt.Println("Test HelloWorld with Require") // will not be printed // call failnow
 }
 func TestHelloWorldAssert(t *testing.T) {
@@ -77,7 +82,7 @@ func TestHelloWorldAssert(t *testing.T) {
 func TestHelloWorld(t *testing.T) {
 	result := HelloWorld("Eko")
 
-	if result != "Hello Ekos" {
+	if result != "Hello Eko" {
 		// the next code is still executed
 		//t.Fail()
 		// t.Error give extra information about the error
@@ -90,7 +95,7 @@ func TestHelloWorld(t *testing.T) {
 func TestHelloWorldFikri(t *testing.T) {
 	result := HelloWorld("Fikri")
 
-	if result != "Hello Eko" {
+	if result != "Hello Fikri" {
 		// the next code will not be executed
 		//t.FailNow()
 		// t.Fatal give an extra information about the error
