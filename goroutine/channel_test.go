@@ -58,3 +58,26 @@ func TestInOutChannel(t *testing.T) {
 	go OnlyOut(channel)
 
 }
+
+/**
+* buffer channel is used for delegate more than one data in a channel
+* defalt buffer when create channel is 1.
+*/
+func TestBufferedChannel(t *testing.T) {
+	channel := make(chan string, 3) // 3= length of buffer
+	defer close(channel)
+
+	go func(){
+		channel <- "Fikri"
+		channel <- "Al"
+		channel <- "Fatih"
+	}
+
+	go func(){
+		fmt.Println(<-channel)
+		fmt.Println(<-channel)
+		fmt.Println(<-channel)
+	}
+
+	fmt.Println("selesai")
+}
