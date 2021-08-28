@@ -7,6 +7,9 @@ import (
 	"time"
 )
 
+/**
+* @info https://dasarpemrogramangolang.novalagung.com/A-mutex.html
+ */
 type UserBalance struct {
 	sync.Mutex        // Protect
 	Name       string //
