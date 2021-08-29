@@ -2,6 +2,7 @@ package belajar_golang_goroutine
 
 import (
 	"fmt"
+	"runtime"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -27,6 +28,9 @@ func TestAtomic(t *testing.T) {
 			group.Done()
 		}()
 	}
+
+	fmt.Println("thread run", runtime.GOMAXPROCS(-1))
+	fmt.Println("goroutine run", runtime.NumGoroutine())
 
 	group.Wait()
 	fmt.Println("Counter  = ", x)

@@ -2,6 +2,7 @@ package belajar_golang_goroutine
 
 import (
 	"fmt"
+	"runtime"
 	"sync"
 	"testing"
 	"time"
@@ -74,6 +75,7 @@ func TestTransferDeadLock(t *testing.T) {
 	time.Sleep(3 * time.Second) // if not exist then the next code will just print the current value
 	fmt.Println("User ", user1.Name, ", Balance ", user1.balance)
 	fmt.Println("User ", user2.Name, ", Balance ", user2.balance)
+
 }
 
 func TestTransferWithWaitGroup(t *testing.T) {
@@ -88,11 +90,14 @@ func TestTransferWithWaitGroup(t *testing.T) {
 	 */
 	group.Add(1)
 	go TransferWithWaitGroup(group, &user1, &user2, 60000) // transfer from user 1 to user 2
+	fmt.Println("== goroutine run ==", runtime.NumGoroutine())
 	group.Wait()
 	group.Add(1)
 	go TransferWithWaitGroup(group, &user2, &user1, 1000) // transfer from user 2 to user 1
+	fmt.Println("== goroutine run ==", runtime.NumGoroutine())
 	group.Wait()
 
 	fmt.Println("User ", user1.Name, ", Balance ", user1.balance)
 	fmt.Println("User ", user2.Name, ", Balance ", user2.balance)
+
 }
