@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func TestExecSql(t *testing.T) {
