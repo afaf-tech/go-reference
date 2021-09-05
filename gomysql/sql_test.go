@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strconv"
 	"testing"
 )
 
@@ -189,4 +190,38 @@ func TestAutoIncrement(t *testing.T) {
 	}
 
 	fmt.Println("Success inserting db with id :", insertId)
+}
+
+// ExecContext and ExecQuery will renew the db connection after first execution. so that if
+// we have more execution, the db connection will not be the same.
+// But if we have statement, no matter how much execution we have. we just need one connection DB.
+func TestPrepareStatement(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+
+	ctx := context.Background()
+	query := "INSERT INTO comments(email, comments) VALUES (?, ?)"
+	// prepare statement is commonly used when you have the same query and many params at the same time.
+	statement, err := db.PrepareContext(ctx, query)
+	if err != nil {
+		panic(err)
+	}
+	defer statement.Close()
+
+	for i := 0; i < 10; i++ {
+		email := "fikri" + strconv.Itoa(i) + "@gmail.com"
+		comment := "comment_" + strconv.Itoa(i)
+
+		result, err := statement.ExecContext(ctx, email, comment)
+		if err != nil {
+			panic(err)
+		}
+
+		id, err := result.LastInsertId()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("id :", id)
+	}
+
 }
