@@ -81,3 +81,37 @@ func TestQueryComplexSql(t *testing.T) {
 	defer rows.Close()
 	fmt.Println("")
 }
+
+func TestSqlInjection(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+
+	ctx := context.Background()
+
+	// dont do this
+	username := "admin'; #" // ; for end and # for comments. means will ignore the password
+	password := "admin"
+
+	// solution : dont create manual query with concat the string with user-input value.
+	// will be described in the next chapter
+
+	query := "SELECT username, password FROM user WHERE username= '" + username + "' AND password= '" + password + "' LIMIT 1"
+	rows, err := db.QueryContext(ctx, query)
+	if err != nil {
+		panic(err)
+	}
+	// loop data with rows.Next() return type bool
+	if rows.Next() {
+		var username, password string
+		err := rows.Scan(&username, &password)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(username, password)
+		fmt.Println("Sukses login", username)
+	} else {
+		fmt.Println("gagal login")
+	}
+	defer rows.Close()
+	fmt.Println("")
+}
