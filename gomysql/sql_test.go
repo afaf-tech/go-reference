@@ -157,11 +157,36 @@ func TestExecSqlSafe(t *testing.T) {
 
 	ctx := context.Background()
 
+	username := "paman'; DROP TABLES user"
+	password := "paman"
+
 	query := "INSERT INTO user(useranme, password) VALUES (?, ?)"
-	_, err := db.ExecContext(ctx, query)
+	_, err := db.ExecContext(ctx, query, username, password)
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println("Success inserting db")
+}
+
+func TestAutoIncrement(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+
+	ctx := context.Background()
+
+	email := "fikri@gmail.com"
+	comments := "nana lagi marah"
+
+	query := "INSERT INTO comments(email, comments) VALUES (?, ?)"
+	result, err := db.ExecContext(ctx, query, email, comments)
+	if err != nil {
+		panic(err)
+	}
+	insertId, err := result.LastInsertId()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Success inserting db with id :", insertId)
 }
