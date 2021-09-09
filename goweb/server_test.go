@@ -1,4 +1,4 @@
-package belajar_golang_we
+package belajar_golang_web
 
 import (
 	"net/http"
