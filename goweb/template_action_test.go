@@ -53,7 +53,7 @@ func TemplateActionRange(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("./templates/range.gohtml"))
 
 	t.ExecuteTemplate(w, "range.gohtml", map[string]interface{}{
-		"Title": "Template Data Operator Comparation",
+		"Title": "Template Data Range",
 		"Hobbies": []string{
 			"Game", "Read", "Cook",
 		},
@@ -69,11 +69,12 @@ func TestTemplateActionRange(t *testing.T) {
 	body, _ := io.ReadAll(recorder.Result().Body)
 	fmt.Println(string(body))
 }
+
 func TemplateActionWith(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("./templates/address.gohtml"))
 
 	t.ExecuteTemplate(w, "address.gohtml", map[string]interface{}{
-		"Title": "Template Data Operator Comparation",
+		"Title": "Template Data With",
 		"Name":  "Fikri",
 		"Address": map[string]interface{}{
 			"Street": "Jalan Makam Desa",
