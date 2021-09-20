@@ -51,7 +51,7 @@ func (service *CategoryServiceImpl) Update(ctx context.Context, request web.Cate
 	return helper.ToCategoryResponse(category)
 }
 
-func (service *CategoryServiceImpl) Delete(ctx context.Context, id int64) {
+func (service *CategoryServiceImpl) Delete(ctx context.Context, id int) {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
@@ -63,7 +63,7 @@ func (service *CategoryServiceImpl) Delete(ctx context.Context, id int64) {
 
 }
 
-func (service *CategoryServiceImpl) FindById(ctx context.Context, id int64) web.CategoryResponse {
+func (service *CategoryServiceImpl) FindById(ctx context.Context, id int) web.CategoryResponse {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)

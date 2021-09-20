@@ -1,6 +1,6 @@
 package web
 
 type CategoryResponse struct {
-	Id   int64
+	Id   int
 	Name string
 }
