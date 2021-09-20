@@ -16,12 +16,12 @@ GET http://localhost:3000/api/categories/2 HTTP/1.1
 Content-type: application/json;
 
 ### Update a category by Id
-PUT http://localhost:3000/api/categories/2 HTTP/1.1
+PUT http://localhost:3000/api/categories/23 HTTP/1.1
 Accept: application/json
 Content-Type: application/json; charset=UTF-8
 
 {
-    "name": "Food"
+    "name":""
 }
 
 
