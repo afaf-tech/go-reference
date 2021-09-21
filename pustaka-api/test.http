@@ -10,8 +10,7 @@ POST http://localhost:3000/books
 Content-Type: application/json; charset=UTF-8
 
 {
-    "title": "Book 3",
-    "price": 1
+    "price": "132.32"
 }
 
 ### ?id
