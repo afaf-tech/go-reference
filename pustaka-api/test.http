@@ -1,2 +1,19 @@
 GET http://localhost:3000/
 Content-Type: application/json; charset=UTF-8
+
+### :id
+GET http://localhost:3000/books/3
+Content-Type: application/json; charset=UTF-8
+
+### 
+POST http://localhost:3000/books
+Content-Type: application/json; charset=UTF-8
+
+{
+    "title": "Book 3",
+    "price": 1
+}
+
+### ?id
+GET http://localhost:3000/query?id=323&price=2000
+Content-Type: application/json; charset=UTF-8
