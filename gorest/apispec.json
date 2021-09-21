@@ -62,6 +62,22 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateOrUpdateCategory"
+                },
+                "examples": {
+                  "satu": {
+                    "description": "for satu ",
+                      "value": {
+                        "type": "string",
+                        "enum": ["created", "updated"]
+                      }
+                  },
+                  "dua": {
+                    "description": "for satu ",
+                      "value": {
+                        "name": "string",
+                        "falsa": ["created", "updated"]
+                      }
+                  }
                 }
               }
             }
