@@ -9,7 +9,7 @@ import (
 )
 
 func GetConnection() *gorm.DB {
-	dsn := "root:mypass@tcp(0.0.0.0:3306)/belajar_golang_database?parseTime=true"
+	dsn := "root:mypass@tcp(0.0.0.0:3306)/pustaka-api?parseTime=true"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Db connection error")
