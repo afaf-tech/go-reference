@@ -1,12 +1,16 @@
 package main
 
 import (
+	"pustaka-api/app"
 	"pustaka-api/handler"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+
+	app.GetConnection()
+
 	router := gin.Default()
 
 	v1 := router.Group("/v1/")
