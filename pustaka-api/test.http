@@ -6,11 +6,19 @@ GET http://localhost:3000/v1/books/3
 Content-Type: application/json; charset=UTF-8
 
 ### 
+GET  http://localhost:3000/v1/books
+Content-Type: application/json; charset=UTF-8
+
+### 
 POST http://localhost:3000/v1/books
 Content-Type: application/json; charset=UTF-8
 
 {
-    "price": "132.32"
+    "title": "The Pragmatic QA",
+    "price": "13232",
+    "discount": "0",
+    "description": "The Pragmatic QA",
+    "rating": "5"
 }
 
 ### ?id

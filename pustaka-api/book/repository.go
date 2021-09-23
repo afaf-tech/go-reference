@@ -7,7 +7,7 @@ import (
 type Repository interface {
 	FindAll() ([]Book, error)
 	FindOne(ID int) (Book, error)
-	Craete(book Book) (Book, error)
+	Create(book Book) (Book, error)
 	Update(ID int, book Book) (Book, error)
 }
 
