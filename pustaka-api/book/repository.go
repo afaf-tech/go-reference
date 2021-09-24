@@ -9,6 +9,7 @@ type Repository interface {
 	FindOne(ID int) (Book, error)
 	Create(book Book) (Book, error)
 	Update(ID int, book Book) (Book, error)
+	Delete(book Book) (Book, error)
 }
 
 type repository struct {
@@ -40,5 +41,10 @@ func (repo *repository) Update(ID int, book Book) (Book, error) {
 	book, _ = repo.FindOne(ID)
 	book.Title = "Niana {Revised Edition}"
 	err := repo.db.Save(&book).Error
+	return book, err
+}
+
+func (repo *repository) Delete(book Book) (Book, error) {
+	err := repo.db.Delete(&book).Error
 	return book, err
 }
