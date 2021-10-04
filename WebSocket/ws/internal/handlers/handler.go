@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/CloudyKit/jet/v6"
+	"github.com/gorilla/websocket"
 )
 
 var views = jet.NewSet(
@@ -12,8 +13,38 @@ var views = jet.NewSet(
 	jet.InDevelopmentMode(),
 )
 
+var upgradeConnection = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin:     func(r *http.Request) bool { return true },
+}
+
 func Home(w http.ResponseWriter, h *http.Request) {
 	err := renderPage(w, "home.jet", nil)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+// WsJsonResponse defines the response sent back from websocket
+type WsJsonResponse struct {
+	Action      string `json:"action"`
+	Message     string `json:"message"`
+	MessageType string `json:"message_type"`
+}
+
+// WsEndpoint upgrades connection to websocket
+func WsEndpoint(w http.ResponseWriter, r *http.Request) {
+	ws, err := upgradeConnection.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println("Client connected to endpoint")
+	var response WsJsonResponse
+	response.Message = `<em><small>connected to server</small></em>`
+
+	err = ws.WriteJSON(response)
 	if err != nil {
 		log.Println(err)
 	}
