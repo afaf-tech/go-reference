@@ -39,3 +39,42 @@ type Preference struct {
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 }
+
+// Host is the model for hosts
+type Host struct {
+	ID            int
+	HostName      string
+	CanonicalName string
+	URL           string
+	IP            string
+	IPV6          string
+	Location      string
+	OS            string
+	Active        int
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+}
+
+// Service is the model of services
+type Service struct {
+	ID          int
+	ServiceName string
+	Active      int
+	Icon        string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+}
+
+// HostService is the model of host_services
+type HostService struct {
+	ID             int
+	HostId         int
+	ServiceId      int
+	Active         int
+	ScheduleNumber int
+	ScheduleUnit   string
+	Status         string
+	LastCheck      time.Time
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+}
