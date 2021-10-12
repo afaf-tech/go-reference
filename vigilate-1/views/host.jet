@@ -169,7 +169,7 @@ Host
                     id="warning-content">
                     Warning Content
             </div>
-            <div class="tab-pane fade show fade" role="tabpanel" aria-labelledby="problem-tab"
+            <div class="tab-pane fade" role="tabpanel" aria-labelledby="problem-tab"
                     id="problem-content">
                     Problem Content
             </div>
