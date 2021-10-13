@@ -35,14 +35,18 @@
             </tr>
             </thead>
             <tbody>
-                {{range services }}
-                    <tr>
-                        <td><a href="/admin/host/{{.HostID}}#healthy-content">{{.HostName}}</a></td>
-                        <td>{{.Service.ServiceName}}</td>
-                        <td>
-                            <span class="badge bg-secondary-dark">{{.Status}}</span>
-                        </td>
-                    </tr>
+                {{if len(services) > 0}}
+                    {{range services }}
+                        <tr>
+                            <td><a href="/admin/host/{{.HostID}}#healthy-content">{{.HostName}}</a></td>
+                            <td>{{.Service.ServiceName}}</td>
+                            <td>
+                                <span class="badge bg-secondary-dark">{{.Status}}</span>
+                            </td>
+                        </tr>
+                    {{end}}
+                {{else}}
+                    <tr colspan="4">No Services</tr>
                 {{end}}
             </tbody>
         </table>
