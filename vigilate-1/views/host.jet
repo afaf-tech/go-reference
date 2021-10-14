@@ -2,7 +2,9 @@
 
 {{block css()}}
 <style>
-
+    .pointer{
+        cursor:pointer;
+    }
 </style>
 {{end}}
 
@@ -169,7 +171,7 @@ Host
                             <td>
                                 <span class="{{.Service.Icon}}"></span>
                                 {{.Service.ServiceName}}
-                                <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}})">
                                     Check Now
                                 </span>
                             </td>
@@ -187,7 +189,7 @@ Host
                             <td>
                                 <span class="{{.Service.Icon}}"></span>
                                 {{.Service.ServiceName}}
-                                <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}})">
                                     Check Now
                                 </span>
                             </td>
@@ -217,7 +219,7 @@ Host
                                         <td>
                                             <span class="{{.Service.Icon}}"></span>
                                             {{.Service.ServiceName}}
-                                            <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                            <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'problem')">
                                                 Check Now
                                             </span>
                                         </td>
@@ -257,7 +259,7 @@ Host
                                         <td>
                                             <span class="{{.Service.Icon}}"></span>
                                             {{.Service.ServiceName}}
-                                            <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                            <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}})">
                                                 Check Now
                                             </span>
                                         </td>
@@ -346,8 +348,33 @@ Host
         }
     }
 
-    function checkNow(id){
+    function checkNow(id, oldStatus){
         console.log(`Click checkonow ${id}`)
+        fetch(`/admin/perform-check/${id}/${oldStatus}`)
+            .then(resp=> resp.json())
+            .then(data=> {
+                console.log("OK" ,data.ok)
+                console.log("Message" ,data.message)
+                if(data.ok){
+                    if(data.old_status!== data.new_status){
+                        attention.toast({
+                            msg: data.message,
+                            icon: 'info', 
+                            timer: 60000,
+                            showCloseButton: true,
+                        })
+                    }else{
+                        attention.toast({
+                            msg: 'Service is still in ' + data.new_status + ' state.',
+                            icon: 'info', 
+                            timer: 60000,
+                            showCloseButton: true,
+                        })
+                    }
+                }else {
+                    errorAlert("Error: Something went wrong!");
+                }
+            })
     }
 </script>
 {{end}}
