@@ -32,4 +32,5 @@ type DatabaseRepo interface {
 	GetHostServiceByID(id int) (models.HostService, error)
 	UpdateHostService(hs models.HostService) error
 	GetServicesToMonitor() ([]models.HostService, error)
+	UpdateSystemPref(name, value string) error
 }

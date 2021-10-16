@@ -506,5 +506,6 @@
                 form.submit();
             }
         }
+
     </script>
 {{end}}
