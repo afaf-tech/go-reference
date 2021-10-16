@@ -11,9 +11,24 @@
     });
     let publicChannel = pusher.subscribe("public-channel");
 
-    publicChannel.bind("test-event", function(data){
+    publicChannel.bind("app-starting", function(data){
+        console.log("app-starting");
         successAlert(data.message)
     })
+    publicChannel.bind("app-stopping", function(data){
+        console.log("app-stopping");
+        successAlert(data.message)
+    })
+
+    // things we want to look for 
+    // - service goes down
+    // - service comes up
+    // - service status changed
+    // - scheduled changed
+    // - monitoring is turned off
+    // - next-run-event changes
+    // 
+
 
     let attention = Prompt();
 
@@ -39,7 +54,7 @@
                         // want to turn monitoring offline
                         console.log("Would turn monitoring off");
                         updateSystemPref("monitoring_live", "0")
-                        toggleMonitoring(false);
+                        toggleMonitoring("0");
                     }else {
                         document.getElementById("monitoring-live").checked = true;
                     }
@@ -47,7 +62,7 @@
             })
         }else{
             updateSystemPref("monitoring_live", "1")
-            toggleMonitoring(true);
+            toggleMonitoring("1");
         
         }
     })
