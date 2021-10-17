@@ -19,6 +19,10 @@
         console.log("app-stopping");
         successAlert(data.message)
     })
+    publicChannel.bind("host-service-status-changed", function(data){
+        console.log("host-service-status-changed");
+        successAlert(data.message)
+    })
 
     // things we want to look for 
     // - service goes down
