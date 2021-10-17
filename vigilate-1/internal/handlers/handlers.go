@@ -416,16 +416,14 @@ func (repo *DBRepo) SetSystemPref(w http.ResponseWriter, r *http.Request) {
 // ToggleMonitoring turns monitoring on and off
 func (repo *DBRepo) ToggleMonitoring(w http.ResponseWriter, r *http.Request) {
 	enabled := r.PostForm.Get("enabled")
-	log.Println(enabled)
+
 	if enabled == "1" {
 		// start monitoring
-		log.Println("*******turning monitoring on")
 		repo.App.PreferenceMap["monitoring_live"] = "1"
 		repo.StartMonitoring()
 		repo.App.Scheduler.Start()
 	} else {
 		// stop monitoring
-		log.Println("*******turning monitoring off")
 		repo.App.PreferenceMap["monitoring_live"] = "0"
 
 		// remove all items in map from schedule
@@ -442,6 +440,7 @@ func (repo *DBRepo) ToggleMonitoring(w http.ResponseWriter, r *http.Request) {
 		for _, i := range repo.App.Scheduler.Entries() {
 			repo.App.Scheduler.Remove(i.ID)
 		}
+
 		repo.App.Scheduler.Stop()
 
 		data := make(map[string]string)
@@ -450,13 +449,14 @@ func (repo *DBRepo) ToggleMonitoring(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 		}
+
 	}
+
 	var resp jsonResp
 	resp.OK = true
 
-	out, _ := json.MarshalIndent(resp, "", " ")
+	out, _ := json.MarshalIndent(resp, "", "   ")
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
-
 }
