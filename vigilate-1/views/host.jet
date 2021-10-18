@@ -165,46 +165,90 @@ Host
             </div>
             <div class="tab-pane fade show fade" role="tabpanel" aria-labelledby="healthy-tab"
                     id="healthy-content">
-                    {{range host.HostServices}}
-                        {{if .Status == "healthy"}}
-                        <tr>
-                            <td>
-                                <span class="{{.Service.Icon}}"></span>
-                                {{.Service.ServiceName}}
-                                <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}})">
-                                    Check Now
-                                </span>
-                            </td>
-                            <td>{{.LastCheck}}</td>
-                            <td></td>
-                        </tr>
-                        {{end}}
-                    {{end}}
+                    <div class="row">
+                        <div class="col">
+                        <h4 class="pt-3">Healthy Services</h4>
+                            <table id="healthy-table" class="table table-stripped">
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Last Check</th>
+                                        <th> Message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {{range host.HostServices}}
+                                    {{if .Status == "healthy"}}
+                                    <tr id="host-service-{{.ID}}">
+                                        <td>
+                                            <span class="{{.Service.Icon}}"></span>
+                                            {{.Service.ServiceName}}
+                                            <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'healthy')">
+                                                Check Now
+                                            </span>
+                                        </td>
+                                        <td>
+                                        {{if dateAfterYearOne(.LastCheck)}}
+                                            {{dateFromLayout(.LastCheck, "2006-01-03 15:04")}}
+                                        {{else}}
+                                            Pending...
+                                        {{end}}
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    {{end}}
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
             </div>
             <div class="tab-pane fade show fade" role="tabpanel" aria-labelledby="warning-tab"
                     id="warning-content">
-                    {{range host.HostServices}}
-                        {{if .Status == "warning"}}
-                        <tr>
-                            <td>
-                                <span class="{{.Service.Icon}}"></span>
-                                {{.Service.ServiceName}}
-                                <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}})">
-                                    Check Now
-                                </span>
-                            </td>
-                            <td>{{.LastCheck}}</td>
-                            <td></td>
-                        </tr>
-                        {{end}}
-                    {{end}}
+                    <div class="row">
+                        <div class="col">
+                        <h4 class="pt-3">Warning Services</h4>
+                            <table id="warning-table" class="table table-stripped">
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Last Check</th>
+                                        <th> Message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {{range host.HostServices}}
+                                    {{if .Status == "warning"}}
+                                    <tr id="host-service-{{.ID}}">
+                                        <td>
+                                            <span class="{{.Service.Icon}}"></span>
+                                            {{.Service.ServiceName}}
+                                            <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'warning')">
+                                                Check Now
+                                            </span>
+                                        </td>
+                                        <td>
+                                        {{if dateAfterYearOne(.LastCheck)}}
+                                            {{dateFromLayout(.LastCheck, "2006-01-03 15:04")}}
+                                        {{else}}
+                                            Pending...
+                                        {{end}}
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    {{end}}
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
             </div>
             <div class="tab-pane fade" role="tabpanel" aria-labelledby="problem-tab"
                     id="problem-content">
                     <div class="row">
                         <div class="col">
                         <h4 class="pt-3">Problem Services</h4>
-                            <table class="table table-stripped">
+                            <table id="problem-table" class="table table-stripped">
                                 <thead>
                                     <tr>
                                         <th>Service</th>
@@ -215,7 +259,7 @@ Host
                                 <tbody>
                                 {{range host.HostServices}}
                                     {{if .Status == "problem"}}
-                                    <tr>
+                                    <tr id="host-service-{{.ID}}">
                                         <td>
                                             <span class="{{.Service.Icon}}"></span>
                                             {{.Service.ServiceName}}
@@ -244,7 +288,7 @@ Host
                     <div class="row">
                         <div class="col">
                         <h4 class="pt-3">Pending Services</h4>
-                            <table class="table table-stripped">
+                            <table id="pending-table" class="table table-stripped">
                                 <thead>
                                     <tr>
                                         <th>Service</th>
@@ -255,7 +299,7 @@ Host
                                 <tbody>
                                 {{range host.HostServices}}
                                     {{if .Status == "pending"}}
-                                    <tr>
+                                    <tr id="host-service-{{.ID}}">
                                         <td>
                                             <span class="{{.Service.Icon}}"></span>
                                             {{.Service.ServiceName}}
