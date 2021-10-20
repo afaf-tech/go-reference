@@ -82,6 +82,7 @@ type HostService struct {
 	UpdatedAt      time.Time
 	Service        Services
 	HostName       string
+	LastMessage    string
 }
 
 // Schedule Model
@@ -96,6 +97,7 @@ type Schedule struct {
 	ScheduleText  string
 }
 
+// event model
 // event model
 type Event struct {
 	ID            int

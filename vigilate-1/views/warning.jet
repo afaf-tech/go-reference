@@ -43,6 +43,8 @@
                             <td>
                                 <span class="badge bg-secondary-dark">{{.Status}}</span>
                             </td>
+                            <td>{{.LastMessage}}</td>
+
                         </tr>
                     {{end}}
                 {{else}}
