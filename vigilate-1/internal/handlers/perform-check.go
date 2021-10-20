@@ -104,6 +104,11 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 	// test the service
 	newStatus, msg := repo.testServiceForHost(h, hs)
 
+	// broadcast service status chanded event
+	if newStatus != hs.Status {
+		repo.pushStatusChangedEvent(h, hs, newStatus)
+	}
+
 	// update host service in the database with status (if changed) and last check
 	hs.Status = newStatus
 	hs.UpdatedAt = time.Now()
