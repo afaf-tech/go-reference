@@ -197,7 +197,7 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 		if err != nil {
 			log.Println(err)
 		}
-		// TODO - send emailif appropriate.
+		// - send email if appropriate.
 		if repo.App.PreferenceMap["notify_via_email"] == "1" {
 			if hs.Status != "pending" {
 				mm := channeldata.MailData{
@@ -208,11 +208,11 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 				if newStatus == "healthy" {
 					mm.Subject = fmt.Sprintf("HEALTHY %s on %s", hs.Service.ServiceName, hs.HostName)
 					mm.Content = template.HTML(fmt.Sprintf(`<p>Service on %s on %s reported healthy status</p>
-						<p><strong>Message received : %s </strong></p>`, hs.Service.ServiceName, hs.HostName, msg))
+					<p><strong>Message received : %s </strong></p>`, hs.Service.ServiceName, hs.HostName, msg))
 				} else if newStatus == "problem" {
 					mm.Subject = fmt.Sprintf("PROBLEM %s on %s", hs.Service.ServiceName, hs.HostName)
 					mm.Content = template.HTML(fmt.Sprintf(`<p>Service on %s on %s reported problem status</p>
-								<p><strong>Message received : %s </strong></p>`, hs.Service.ServiceName, hs.HostName, msg))
+						<p><strong>Message received : %s </strong></p>`, hs.Service.ServiceName, hs.HostName, msg))
 
 				} else if newStatus == "warning" {
 					mm.Subject = fmt.Sprintf("WARNING %s on %s", hs.Service.ServiceName, hs.HostName)
@@ -222,7 +222,25 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 				helpers.SendEmail(mm)
 			}
 		}
-		// TOD send sms if appropriate.
+		// send sms if appropriate
+		// the feature is temporarily turned off.
+		// if repo.App.PreferenceMap["notify_via_sms"] == "1" {
+		// 	to := repo.App.PreferenceMap["sms_notify_number"]
+		// 	smsMessage := ""
+
+		// 	if newStatus == "healthy" {
+		// 		smsMessage = fmt.Sprintf("Service %s on %s is healthy", hs.Service.ServiceName, hs.HostName)
+		// 	} else if newStatus == "problem" {
+		// 		smsMessage = fmt.Sprintf("Service %s on %s reports a problem: %s", hs.Service.ServiceName, hs.HostName, msg)
+		// 	} else if newStatus == "warning" {
+		// 		smsMessage = fmt.Sprintf("Service %s on %s reports a warning: %s", hs.Service.ServiceName, hs.HostName, msg)
+		// 	}
+
+		// 	err := sms.SendTextTwilio(to, smsMessage, repo.App)
+		// 	if err != nil {
+		// 		log.Println("Error sending sms in peform-checks.go", err)
+		// 	}
+		// }
 	}
 
 	repo.pushScheduleChangeEvent(hs, newStatus)
