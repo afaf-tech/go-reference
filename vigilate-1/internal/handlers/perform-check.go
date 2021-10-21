@@ -175,7 +175,9 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 	case HTTP:
 		msg, newStatus = testHttpForHost(h.URL)
 		break
-
+	case HTTPS:
+		msg, newStatus = testHttpsForHost(h.URL)
+		break
 	}
 
 	// broadcast to clients if appropriate
@@ -292,6 +294,26 @@ func testHttpForHost(url string) (string, string) {
 	}
 
 	url = strings.Replace(url, "https://", "http://", -1)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return fmt.Sprintf("%s = %s", url, "error connecting"), "problem"
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Sprintf("%s = %s", url, resp.Status), "problem"
+	}
+	return fmt.Sprintf("%s = %s", url, resp.Status), "healthy"
+}
+
+//  test HTTPS service
+func testHttpsForHost(url string) (string, string) {
+	if strings.HasSuffix(url, "/") {
+		url = strings.TrimSuffix(url, "/")
+	}
+
+	url = strings.Replace(url, "http://", "https://", -1)
 
 	resp, err := http.Get(url)
 	if err != nil {
