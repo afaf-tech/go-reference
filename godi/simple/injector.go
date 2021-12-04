@@ -19,3 +19,13 @@ func InitializedDatabaseRepository() *DatabaseRepository {
 
 	return nil
 }
+
+// advantage: just to simplify when creating provider and its injectors
+var fooSet = wire.NewSet(NewFooRepository, NewFooService)
+
+var barSet = wire.NewSet(NewBarRepository, NewBarService)
+
+func InitializedFooBarService() *FooBarService {
+	wire.Build(fooSet, barSet, NewFooBarService)
+	return nil
+}
