@@ -7,7 +7,7 @@ import (
 	"github.com/google/wire"
 )
 
-func InitializeService() *SimpleService {
+func InitializeService() (*SimpleService, error) {
 	wire.Build(NewSimpleRepository, NewSimpleService)
-	return nil // will be replace automatically by google wire
+	return nil, nil // will be replace automatically by google wire
 }
