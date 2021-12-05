@@ -2,17 +2,19 @@ package test
 
 import (
 	"afaf-tech/belajar-golang-restful-api/simple"
-	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestSimpleService(t *testing.T) {
-	simpleService, err := simple.InitializeService()
-	fmt.Println(err)
-	if err == nil {
-		fmt.Println(simpleService.SimpleRepository)
+func TestSimpleServiceErr(t *testing.T) {
+	simpleService, err := simple.InitializeService(true)
+	assert.NotNil(t, err)
+	assert.Nil(t, simpleService)
+}
 
-	} else {
-		fmt.Println(simpleService)
-	}
+func TestSimpleService(t *testing.T) {
+	simpleService, err := simple.InitializeService(false)
+	assert.Nil(t, err)
+	assert.NotNil(t, simpleService)
 }
