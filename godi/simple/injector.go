@@ -88,5 +88,10 @@ func InitializeddConfiguration() *Configuration {
 	)
 
 	return nil
+}
 
+// CLEAN UP FUNCTION
+func InitializedConnection(name string) (*Connection, func()) {
+	wire.Build(NewConnection, NewFile)
+	return nil, nil
 }
