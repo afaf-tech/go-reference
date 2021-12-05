@@ -29,3 +29,19 @@ func InitializedFooBarService() *FooBarService {
 	wire.Build(fooSet, barSet, NewFooBarService)
 	return nil
 }
+
+var HelloSet = wire.NewSet(
+	NewSayHelloImpl,
+	wire.Bind(new(SayHello), new(*SayHelloImpl)), // Who need this SayHello will be sent SayHelloImpl
+)
+
+func InitializeHelloService() *HelloService {
+	wire.Build(HelloSet, NewHelloService)
+	return nil
+}
+
+// wrong
+// func InitializeHelloService() *HelloService {
+// 	wire.Build(NewHelloService, NewSayHelloImpl)
+// 	return nil
+// }
