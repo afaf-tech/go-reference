@@ -5,6 +5,8 @@ package simple
 
 import (
 	"github.com/google/wire"
+	"io"
+	"os"
 )
 
 func InitializeService(isError bool) (*SimpleService, error) {
@@ -52,5 +54,20 @@ var FooBarSet = wire.NewSet(NewFoo, NewBar)
 
 func InitializeFooBar() *FooBar {
 	wire.Build(FooBarSet, wire.Struct(new(FooBar), "*"))
+	return nil
+}
+
+// BINDING VALUE
+
+var fooValue = &Foo{}
+var barValue = &Bar{}
+
+func InitializeFooBarUsingValue() *FooBar {
+	wire.Build(wire.Value(fooValue), wire.Value(barValue), wire.Struct(new(FooBar), "*"))
+	return nil
+}
+
+func InitializeReader() io.Reader {
+	wire.Build(wire.InterfaceValue(new(io.Reader), os.Stdin))
 	return nil
 }
