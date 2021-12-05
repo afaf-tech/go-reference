@@ -79,6 +79,12 @@ var (
 	_wireFileValue = os.Stdin
 )
 
+func InitializeddConfiguration() *Configuration {
+	application := NewApplication()
+	configuration := application.Configuration
+	return configuration
+}
+
 // injector.go:
 
 // advantage: just to simplify when creating provider and its injectors

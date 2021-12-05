@@ -71,3 +71,22 @@ func InitializeReader() io.Reader {
 	wire.Build(wire.InterfaceValue(new(io.Reader), os.Stdin))
 	return nil
 }
+
+// STRUCT FIELD PROVIDER
+
+// => case without wire
+// func InitializeConfiguration() *Configuration {
+// 	application := NewApplication()
+// 	configuration := application.Configuration
+// 	return configuration
+// }
+
+func InitializeddConfiguration() *Configuration {
+	wire.Build(
+		NewApplication,
+		wire.FieldsOf(new(*Application), "Configuration"), // get value of Application.Configuration and make it as a new provider
+	)
+
+	return nil
+
+}
