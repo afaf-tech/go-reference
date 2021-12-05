@@ -30,6 +30,7 @@ func InitializedFooBarService() *FooBarService {
 	return nil
 }
 
+// BINDING INTERFACE
 var HelloSet = wire.NewSet(
 	NewSayHelloImpl,
 	wire.Bind(new(SayHello), new(*SayHelloImpl)), // Who need this SayHello will be sent SayHelloImpl
@@ -45,3 +46,11 @@ func InitializeHelloService() *HelloService {
 // 	wire.Build(NewHelloService, NewSayHelloImpl)
 // 	return nil
 // }
+
+// STRUCT PROVIDER
+var FooBarSet = wire.NewSet(NewFoo, NewBar)
+
+func InitializeFooBar() *FooBar {
+	wire.Build(FooBarSet, wire.Struct(new(FooBar), "*"))
+	return nil
+}
