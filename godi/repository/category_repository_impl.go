@@ -1,17 +1,17 @@
 package repository
 
 import (
+	"afaf-tech/belajar-golang-restful-api/helper"
+	"afaf-tech/belajar-golang-restful-api/model/domain"
 	"context"
 	"database/sql"
 	"errors"
-	"afaf-tech/belajar-golang-restful-api/helper"
-	"afaf-tech/belajar-golang-restful-api/model/domain"
 )
 
 type CategoryRepositoryImpl struct {
 }
 
-func NewCategoryRepository() CategoryRepository {
+func NewCategoryRepository() *CategoryRepositoryImpl {
 	return &CategoryRepositoryImpl{}
 }
 

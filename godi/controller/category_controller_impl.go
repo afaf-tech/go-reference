@@ -1,19 +1,20 @@
 package controller
 
 import (
-	"github.com/julienschmidt/httprouter"
-	"net/http"
 	"afaf-tech/belajar-golang-restful-api/helper"
 	"afaf-tech/belajar-golang-restful-api/model/web"
 	"afaf-tech/belajar-golang-restful-api/service"
+	"net/http"
 	"strconv"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 type CategoryControllerImpl struct {
 	CategoryService service.CategoryService
 }
 
-func NewCategoryController(categoryService service.CategoryService) CategoryController {
+func NewCategoryController(categoryService service.CategoryService) *CategoryControllerImpl {
 	return &CategoryControllerImpl{
 		CategoryService: categoryService,
 	}
