@@ -34,3 +34,32 @@ func TestValidateTwoVariables(t *testing.T) {
 	}
 
 }
+
+func TestValidationMultipleTags(t *testing.T) {
+	var user string = "fdsaf4"
+	err := validate.Var(user, "required,number")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
+
+func TestValidationTagParemeter(t *testing.T) {
+	var user string = "000000"
+	err := validate.Var(user, "required,numeric,min=3,max=3")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
+
+func TestValidationStruct(t *testing.T) {
+	type LoginRequest struct {
+		Username string `validate:"required,email"`
+		Password string `validate:"required,min=5"`
+	}
+
+	fikri := LoginRequest{Username: "Fikri", Password: "nana"}
+	err := validate.Struct(fikri)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
