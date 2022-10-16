@@ -63,3 +63,62 @@ func TestValidationStruct(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 }
+
+func TestValidationErrors(t *testing.T) {
+	type LoginRequest struct {
+		Username string `validate:"required,email"`
+		Password string `validate:"required,min=5"`
+	}
+
+	fikri := LoginRequest{Username: "Fikri", Password: "nana"}
+	err := validate.Struct(fikri)
+	if err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		for _, err := range validationErrors {
+			fmt.Println("Field error:", err.Field(), "on tag", err.Tag(), "error", err.Error())
+		}
+	}
+}
+
+func TestValidationCrossField(t *testing.T) {
+	type LoginRequest struct {
+		Username        string `validate:"required,email"`
+		Password        string `validate:"required,min=5"`
+		ConfirmPassword string `validate:"required,min=5,eqfield=Password"`
+	}
+
+	fikri := LoginRequest{Username: "Fikri", Password: "fafafaf", ConfirmPassword: "fafafaf"}
+	err := validate.Struct(fikri)
+	if err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		for _, err := range validationErrors {
+			fmt.Println("Field error:", err.Field(), "on tag", err.Tag(), "error", err.Error())
+		}
+	}
+}
+
+func TestValidationNestedStruct(t *testing.T) {
+	type Address struct {
+		City   string `validate:"required"`
+		Street string `validate:"required"`
+	}
+
+	type User struct {
+		Id      string  `validate:"required"`
+		Name    string  `validate:"required"`
+		Address Address `validate:"required"`
+	}
+
+	akira := &User{
+		Id:   "32",
+		Name: "akira",
+	}
+
+	err := validate.Struct(akira)
+	if err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		for _, err := range validationErrors {
+			fmt.Println("Field error:", err.Field(), "on tag", err.Tag(), "error", err.Error())
+		}
+	}
+}
