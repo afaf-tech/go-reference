@@ -325,3 +325,46 @@ func TestCustomValidationParameter(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 }
+
+func TestOrRule(t *testing.T) {
+	validate.RegisterValidation("pin", MustValidPin)
+
+	type LoginRequest struct {
+		Username string `validate:"required,email|numeric"`
+	}
+
+	fikri := LoginRequest{Username: "alfa"}
+	err := validate.Struct(fikri)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
+
+func MustEqualIgnoreCase(field validator.FieldLevel) bool {
+	value, _, _, ok := field.GetStructFieldOK2()
+
+	if !ok {
+		panic("field not ok")
+	}
+
+	firstValue := strings.ToUpper(field.Field().String())
+	secondValue := strings.ToUpper(value.String())
+
+	return firstValue == secondValue
+
+}
+
+func TestCrossFieldValidation(t *testing.T) {
+	validate.RegisterValidation("feic", MustEqualIgnoreCase) // feic: field equal ignore case (abbreviated)
+
+	type User struct {
+		Username string `validate:"required,feic=Email"`
+		Email    string `validate:"required,email"`
+	}
+
+	fikri := User{Username: "feic@example", Email: "feic@example.com"}
+	err := validate.Struct(fikri)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
