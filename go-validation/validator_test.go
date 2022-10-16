@@ -2,6 +2,9 @@ package govalidation
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/go-playground/validator/v10"
@@ -240,5 +243,85 @@ func TestValidationMap(t *testing.T) {
 		for _, err := range validationErrors {
 			fmt.Println("Field error:", err.Field(), "on tag", err.Tag(), "error", err.Error())
 		}
+	}
+}
+
+func TestValidationALias(t *testing.T) {
+	validate.RegisterAlias("varchar", "required,max=10")
+
+	type Seller struct {
+		Name    string `validate:"varchar"`
+		Address string `validate:"varchar"`
+	}
+
+	seller1 := Seller{
+		Name:    "seller1",
+		Address: "nonafdfsadfasfdsfds",
+	}
+	err := validate.Struct(seller1)
+	if err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		for _, err := range validationErrors {
+			fmt.Println("Field error:", err.Field(), "on tag", err.Tag(), "error", err.Error())
+		}
+	}
+}
+
+func MustValidUsername(field validator.FieldLevel) bool {
+	value, ok := field.Field().Interface().(string)
+	if ok {
+		if value != strings.ToUpper(value) {
+			return false
+		}
+		if len(value) < 5 {
+			return false
+		}
+	}
+	return true
+}
+
+func TestCustomValidationFunction(t *testing.T) {
+	validate.RegisterValidation("username", MustValidUsername)
+	type LoginRequest struct {
+		Username string `validate:"required,username"`
+		Password string `validate:"required,min=5"`
+	}
+
+	fikri := LoginRequest{Username: "FIKRI", Password: "nana"}
+	err := validate.Struct(fikri)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+}
+
+var regexNumber = regexp.MustCompile(`^[0-9]+$`)
+
+func MustValidPin(field validator.FieldLevel) bool {
+	length, err := strconv.Atoi(field.Param())
+	if err != nil {
+		panic(err)
+	}
+
+	value := field.Field().String()
+	if !regexNumber.MatchString(value) {
+		return false
+	}
+
+	return length == len(value)
+}
+
+func TestCustomValidationParameter(t *testing.T) {
+	validate.RegisterValidation("pin", MustValidPin)
+
+	type LoginRequest struct {
+		Password string `validate:"required,min=5"`
+		Pin      string `validate:"required,pin=4"`
+	}
+
+	fikri := LoginRequest{Password: "nana", Pin: "9094"}
+	err := validate.Struct(fikri)
+	if err != nil {
+		fmt.Println(err.Error())
 	}
 }
