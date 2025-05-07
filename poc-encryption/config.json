@@ -1,0 +1,12 @@
+{
+    "redis": {
+      "addr": "localhost:6379",
+      "db": 0,
+      "password": "secret"
+    },
+    "csv_path": "example.csv",
+    "output_csv_path": "encrypted.csv",
+    "max_rows_to_read": 20,
+    "key_cache_prefix": "encryption_key_cache"
+  }
+  
